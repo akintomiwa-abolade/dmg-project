@@ -1,0 +1,27 @@
+body {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  background-color: #f7f7f7;
+}
+.make-bold {
+  font-weight: 700;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.btn-h {
+  height: 58px;
+}
+
+.list-container .list-group-item.active {
+  z-index: 2;
+  background-color: #198754;
+  border-color: #198754;
+  border-radius: 4px;
+}
+
+.list-container .list-group-item {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}

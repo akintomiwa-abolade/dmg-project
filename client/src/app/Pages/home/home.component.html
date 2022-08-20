@@ -1,0 +1,159 @@
+<nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container">
+      <a class="navbar-brand make-bold text-white mx-auto" href="#"
+        >Organisation Workflow</a
+      >
+    </div>
+  </nav>
+
+  <div class="main-content my-5">
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="card border-0 card-body mb-4">
+              <form [formGroup]="myForm" (ngSubmit)="submit()">
+                <div class="row align-items-center">
+                  <div class="col-lg-4 mb-lg-0 mb-3">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        formControlName="organization"
+                        name="organization"
+                        class="form-control"
+                        id="floatingTitle"
+                        placeholder="Title"
+                        [ngClass]="{ 'is-invalid': submitted && f['organization'].errors }"
+                      />
+                      <label for="floatingTitle">Github Organization Name</label>
+                      <div *ngIf="submitted && f['organization'].errors" class="invalid-feedback">
+                        <div *ngIf="f['organization'].errors['required']">Organization name is required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 mb-lg-0 mb-3">
+                    <div class="form-floating">
+                      <input
+                        type="number"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f['repository'].errors }"
+                        id="floatingMin"
+                        formControlName="repository"
+                        name="repository"
+                        value="1"
+                        placeholder="Minimum"
+
+                      />
+                      <label for="floatingMin">No of Repo</label>
+                      <div *ngIf="submitted && f['repository'].errors" class="invalid-feedback">
+                        <div *ngIf="f['repository'].errors['required']">Repository name is required</div>
+                        <div *ngIf="f['repository'].errors['min']">Repository can't be lesser than 1 </div>
+                        <div *ngIf="f['repository'].errors['max']">Repository can't be greater than 10 </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 mb-lg-0 mb-3">
+                    <div class="form-floating">
+                      <input
+                        type="number"
+                        formControlName="issues"
+                        name="issues"
+                        class="form-control"
+                        id="floatingMax"
+                        placeholder="Maximum"
+                        value="10"
+                        [ngClass]="{ 'is-invalid': submitted && f['issues'].errors }"
+                      />
+                      <label for="floatingMax">No of Issues</label>
+                      <div *ngIf="submitted && f['issues'].errors" class="invalid-feedback">
+                        <div *ngIf="f['issues'].errors['required']">Issues name is required</div>
+                        <div *ngIf="f['issues'].errors['min']">Issues can't be lesser than 1 </div>
+                        <div *ngIf="f['issues'].errors['max']">Issues can't be greater than 10 </div>
+
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mb-lg-0 mb-3">
+                    <button [disabled]="" class="btn btn-success make-bold w-100 btn-h" type="submit">
+                      Process
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          <section>
+            <div class="card border-0 mb-4" *ngIf="result">
+              <h4
+                class="card-header text-end bg-white border-bottom-0 py-4 make-bold"
+              >
+                Repository(s)
+              </h4>
+              <div class="card-body">
+                <ul *ngFor="let repos of results?.data" class="list-group list-group-flush list-container">
+                  <li class="list-group-item">{{repos.name }}</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card border-0 mb-4" *ngIf="result">
+              <h4
+                class="card-header text-end bg-white border-bottom-0 py-4 make-bold"
+              >
+                Issues
+              </h4>
+              <div class="card-body">
+                <div class="accordion accordion-flush" id="accordionIssues">
+                  <div class="accordion-item" *ngFor="let issues of results?.data">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button
+                        class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      >
+                        {{issues.full_name}}
+                      </button>
+                    </h2>
+                    <div
+                      id="collapseOne"
+                      class="accordion-collapse collapse show"
+                      aria-labelledby="headingOne"
+                      data-bs-parent="#accordionIssues"
+                    >
+                      <div class="accordion-body">
+                        <div
+                          class="list-group list-group-flush list-container"
+                        >
+                          <a *ngFor="let issue of issues.issues"
+                            href="{{issue.html_url}}"
+                            class="list-group-item list-group-item-action "
+                            aria-current="true" target="_blank"
+                          >
+                            {{issue.title}}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+            <div class="d-flex align-items-center" *ngIf="loading">
+              <strong>Loading...</strong>
+              <div
+                class="spinner-border ms-auto"
+                role="status"
+                aria-hidden="true"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
